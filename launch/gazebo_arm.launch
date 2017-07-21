@@ -26,6 +26,7 @@
 	args="-urdf -model arm_to_be -param robot_description"/>
 
   <!-- ros_control robotis manipulator launch file -->
-<!--   <include file="$(find manipulator_h_gazebo)/launch/position_controller.launch" /> -->
-  <!--<include file="$(find manipulator_h_gazebo)/launch/effort_controller.launch" />-->
+  <include file="$(find my_robotic_arm)/launch/position_controller.launch" />
+  
+  
 </launch>

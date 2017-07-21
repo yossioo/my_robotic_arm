@@ -2,11 +2,15 @@
 <!-- Revolute-Revolute Manipulator -->
 <robot name="my_robotic_arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
     
+    <!--     <xacro:macro name="transmiss" param -->
     <!-- Constants -->
     <xacro:property name="deg_to_rad" value="0.01745329251994329577"/>
-    <xacro:property name="pi" value="3.141592654" />
+    <!--     <xacro:property name="pi" value="3.141592654" /> -->
     <xacro:property name="M_SCALE" value="0.001 0.001 0.001"/> 
     <xacro:property name="M_PI" value="3.14159"/>
+    
+    <xacro:property name="l4" value="0.05"/>
+    
     
     <xacro:property name="link1_radius" value="0.15"/>
     <xacro:property name="link1_height" value="0.4"/>
@@ -22,7 +26,16 @@
     <xacro:property name="link4_y" value="0.7"/>
     <xacro:property name="link4_z" value="0.075"/>
     
+    <xacro:property name="link5_radius" value="0.075"/>
+    <xacro:property name="link5_height" value="0.1"/>
     
+    <xacro:property name="link6_radius" value="0.075"/>
+    <xacro:property name="link6_height" value="0.15"/>
+    
+    <xacro:property name="link7_radius" value="0.025"/>
+    <xacro:property name="link7_height" value="0.25"/>
+    
+    <xacro:property name="end_ball_radius" value="0.05"/>
     
     <!-- Used for fixing robot to Gazebo 'link 1' -->
     <link name="world"/>
@@ -122,13 +135,13 @@
         <collision>
             <origin xyz="0 ${link4_y/2} 0" rpy="0 ${-pi*0} 0"/>
             <geometry>
-                <box size="${link4_x} ${link4_y} ${link4_z}" />
+                <box size="${link4_x-l4} ${link4_y} ${link4_z}" />
             </geometry>
         </collision>
         <visual>
             <origin xyz="0 ${link4_y/2}  0" rpy="0 ${-pi*0} 0"/>
             <geometry>
-                <box size="${link4_x} ${link4_y} ${link4_z}" />
+                <box size="${link4_x-l4} ${link4_y} ${link4_z}" />
             </geometry>
         </visual>
         <inertial>
@@ -138,77 +151,210 @@
         </inertial>
     </link>
     
+    <joint name="j4" type="revolute">
+        <origin xyz="0 ${link4_y} 0 " rpy="${-pi*0.5} ${-pi*0.0} ${-pi*0.0}"/>
+        <parent link="link4"/>
+        <child link="link5"/>
+        <axis xyz="0 0 1"/> 
+        <limit velocity="5.0" effort="100" lower="${-pi*0.75}" upper="${pi*0.75}"/>
+        <dynamics damping="0.7"/>
+    </joint>
+    <link name="link5">
+        <collision>
+            <origin xyz="0 0 0" rpy="0 ${-pi*0} 0"/>
+            <geometry>
+                <cylinder length="${link5_height}" radius="${link5_radius}" />
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 ${-pi*0} 0"/>
+            <geometry>
+                <cylinder length="${link5_height}" radius="${link5_radius}" />
+            </geometry>
+        </visual>
+        <inertial>
+            <origin xyz="0.0 0.00000 0.0" rpy="0 0 0"/>
+            <mass value="0.5"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+        </inertial>
+    </link>
+    
+    <joint name="j5" type="revolute">
+        <origin xyz="0 0 ${l4} " rpy="${-pi*0.0} ${-pi*0.0} ${-pi*0.5}"/>
+        <parent link="link5"/>
+        <child link="link6"/>
+        <axis xyz="0 1 0"/> 
+        <limit velocity="5.0" effort="100" lower="${-pi*0.75}" upper="${pi*0.75}"/>
+        <dynamics damping="0.7"/>
+    </joint>
+    <link name="link6">
+        <collision>
+            <origin xyz="0 0 0" rpy="${-pi*0.5} ${-pi*0} 0"/>
+            <geometry>
+                <cylinder length="${link6_height}" radius="${link6_radius}" />
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="0 0 0" rpy="${-pi*0.5} ${-pi*0} ${-pi*0}"/>
+            <geometry>
+                <cylinder length="${link6_height}" radius="${link6_radius}" />
+            </geometry>
+        </visual>
+        <inertial>
+            <origin xyz="0.0 0.00000 0.0" rpy="0 0 0"/>
+            <mass value="0.5"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+        </inertial>
+    </link>
+    <joint name="j6" type="revolute">
+        <origin xyz="0 0 0" rpy="${-pi*0.0} ${-pi*0.0} ${-pi*0.0}"/>
+        <parent link="link6"/>
+        <child link="link7"/>
+        <axis xyz="0 0 1"/> 
+        <limit velocity="5.0" effort="100" lower="${-pi*0.75}" upper="${pi*0.75}"/>
+        <dynamics damping="0.7"/>
+    </joint>
+    <link name="link7">
+        <collision>
+            <origin xyz="0 0 ${link7_height/2}" rpy="${-pi*0.0} ${-pi*0} 0"/>
+            <geometry>
+                <cylinder length="${link7_height-end_ball_radius}" radius="${link7_radius}" />
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="0 0 ${link7_height/2}" rpy="${-pi*0.0} ${-pi*0} ${-pi*0}"/>
+            <geometry>
+                <cylinder length="${link7_height-end_ball_radius}" radius="${link7_radius}" />
+            </geometry>
+            <!--            <material>
+            <ambient>1 0 0 1</ambient>
+            <diffuse>1 0 0 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+            <emissive>0 0 0 0</emissive>
+            </material>-->
+        </visual>
+        <inertial>
+            <origin xyz="0.0 0.00000 0.0" rpy="0 0 0"/>
+            <mass value="0.5"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+        </inertial>
+    </link>
+    <joint name="end_ball_fixation" type="fixed">
+        <origin xyz="0 0 ${link7_height}" rpy="${-pi*0.0} ${-pi*0.0} ${-pi*0.0}"/>
+        <parent link="link7"/>
+        <child link="end_ball"/>
+    </joint>
+    <link name="end_ball">
+        <collision>
+            <origin xyz="0 0 0" rpy="${-pi*0.0} ${-pi*0} 0"/>
+            <geometry>
+                <sphere radius="${end_ball_radius}" />
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="0 0 0" rpy="${-pi*0.0} ${-pi*0} ${-pi*0}"/>
+            <geometry>
+                <sphere radius="${end_ball_radius}" />
+            </geometry>
+        </visual>
+        <inertial>
+            <origin xyz="0.0 0.00000 0.0" rpy="0 0 0"/>
+            <mass value="0.5"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+        </inertial>
+    </link>
+    
+    <gazebo reference="link1">
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+    <gazebo reference="link2">
+        <material>Gazebo/FlatBlack</material>
+    </gazebo>
+    <gazebo reference="link3">
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+    <gazebo reference="link4">
+        <material>Gazebo/FlatBlack</material>
+    </gazebo>
+    <gazebo reference="link5">
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+    <gazebo reference="link6">
+        <material>Gazebo/FlatBlack</material>
+    </gazebo>
+    <gazebo reference="link7">
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+    <gazebo reference="end_ball">
+        <material>Gazebo/RedGlow</material>
+    </gazebo>
+    
+    <transmission name="transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="j1">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor1">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="j2">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor2">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="j3">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor3">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="j4">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor4">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="j5">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor5">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="j6">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor6">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
     
     
+    
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/my_robotic_arm</robotNamespace>
+        </plugin>
+    </gazebo>
 </robot>
-<!--
-<?xml version="1.0"?>
-<robot name="my_robotic_arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
-
-<xacro:macro name="inertial_matrix" params="mass">
-<inertial>
-<mass value="${mass}"/>
-<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
-</inertial>
-</xacro:macro>
-
-<xacro:macro name="cylinder_inertia" params="m r h">
-<inertia  ixx="${m*(3*r*r+h*h)/12}" ixy = "0" ixz = "0" iyy="${m*(3*r*r+h*h)/12}" iyz = "0" izz="${m*r*r/2}" /> 
-</xacro:macro>
-
-<xacro:property name="link1_radius" value="0.15"/>
-<xacro:property name="link1_height" value="1.0"/>
-<xacro:property name="link2_radius" value="0.1"/>
-<xacro:property name="link2_height" value="0.3"/>
-
-
-<link name="world"/>
-
-<joint name="world_attached_link1" type="fixed">
-<origin xyz="0 0 ${link1_height/2}" rpy="0 0 0"/>
-<parent link="world"/>
-<child link="link1"/>
-</joint>
-
-<link name="link1">
-<collision>
-<origin xyz="0 0 0" rpy="0 0 0"/>
-<geometry>
-<cylinder length="${link1_height}" radius="${link1_radius}" />
-</geometry>
-</collision>
-<visual>
-<origin xyz="0 0 0" rpy="0 0 0"/>
-<geometry>
-<cylinder length="${link1_height}" radius="${link1_radius}" />
-</geometry>
-</visual>
-<cylinder_inertia m="1" r="${link1_radius}" h="${link1_height}"/>
-</link>
-
-<joint name="j1" type="revolute">
-<origin xyz="0 0 ${link1_height/2 + link2_radius }" rpy="0 0 0"/> DEFINE HERE TO CORRECT AXIS
-<parent link="link1"/>
-<child link="link2"/>
-<axis xyz="0 0 1"/>  CURRENTLY AROUND Z AXIS
-<limit velocity="5.0" effort="100" lower="${-pi*0.75}" upper="${pi*0.75}"/>
-<dynamics damping="0.7"/>
-</joint>
-
-
-<link name="link2">
-<collision>
-<origin xyz="0 0 0" rpy="0 ${-pi*0.5} 0"/>
-<geometry>
-<cylinder length="${link2_height}" radius="${link2_radius}" />
-</geometry>
-</collision>
-<visual>
-<origin xyz="0 0 0" rpy="0 ${-pi*0.5} 0"/>
-<geometry>
-<cylinder length="${link2_height}" radius="${link2_radius}" />
-</geometry>
-</visual>
-<cylinder_inertia m="1" r="${link2_radius}" h="${link2_height}"/>
-</link>
-</robot>-->
