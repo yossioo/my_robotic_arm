@@ -56,6 +56,10 @@ Visualization Manager:
           Value: true
         link2:
           Value: true
+        link3:
+          Value: true
+        link4:
+          Value: true
         world:
           Value: true
       Marker Scale: 1
@@ -67,7 +71,9 @@ Visualization Manager:
         world:
           link1:
             link2:
-              {}
+              link3:
+                link4:
+                  {}
       Update Interval: 0
       Value: true
     - Alpha: 0.5
@@ -86,6 +92,16 @@ Visualization Manager:
           Show Trail: false
           Value: true
         link2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        link3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        link4:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -124,16 +140,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.267941
+      Distance: 4.2085495
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.679783702
-        Y: -0.506702542
-        Z: 0.850699544
+        X: -0.630452394
+        Y: -0.455574811
+        Z: 0.366331547
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Name: Current View
@@ -159,5 +175,5 @@ Window Geometry:
   Tool Properties:
     collapsed: false
   Width: 1747
-  X: 36
+  X: 28
   Y: 0
