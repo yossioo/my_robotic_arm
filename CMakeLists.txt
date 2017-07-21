@@ -10,11 +10,12 @@ project(my_robotic_arm)
 find_package(catkin REQUIRED COMPONENTS
   message_generation
   rospy
+  roscpp
   std_msgs
   tf
   tf2
   tf2_eigen
-  tf2_grometry_msgs
+  tf2_geometry_msgs
   tf2_msgs
   tf2_py
   tf2_ros

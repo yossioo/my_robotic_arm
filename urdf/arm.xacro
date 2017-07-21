@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<!-- Revolute-Revolute Manipulator -->
+<robot name="robotis_manipulator_h" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Import all Gazebo-customization elements, including Gazebo colors -->
+    <xacro:include filename="$(find my_robotic_arm)/urdf/manipulator_h.gazebo" />
+    <!-- Import Rviz colors -->
+    <xacro:include filename="$(find my_robotic_arm)/urdf/materials.xacro" />
+    
+    
+    <!-- Constants -->
+    <xacro:property name="deg_to_rad" value="0.01745329251994329577"/>
+    <xacro:property name="pi" value="3.141592654" />
+    <xacro:property name="M_SCALE" value="0.001 0.001 0.001"/> 
+    <xacro:property name="M_PI" value="3.14159"/>
+    
+    <xacro:property name="link1_radius" value="0.15"/>
+    <xacro:property name="link1_height" value="1.0"/>
+    <xacro:property name="link2_radius" value="0.1"/>
+    <xacro:property name="link2_height" value="0.3"/>
+    <!-- Used for fixing robot to Gazebo 'link 1' -->
+    
+    
+    <link name="world"/>
+    
+    <joint name="world_attached_link1" type="fixed">
+        <origin xyz="0 0 ${link1_height/2}" rpy="0 0 0"/>
+        <parent link="world"/>
+        <child link="link1"/>
+    </joint>
+    
+    
+    <link name="link1">
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder length="${link1_height}" radius="${link1_radius}" />
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder length="${link1_height}" radius="${link1_radius}" />
+            </geometry>
+        </visual>
+        <inertial>
+            <origin xyz="0.0 0.00000 0.0" rpy="0 0 0"/>
+            <mass value="0.5"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+        </inertial>
+    </link>
+    
+    <joint name="j1" type="revolute">
+        <origin xyz="0 0 ${link1_height/2 + link2_radius }" rpy="0 0 0"/> DEFINE HERE TO CORRECT AXIS
+        <parent link="link1"/>
+        <child link="link2"/>
+        <axis xyz="0 0 1"/>  CURRENTLY AROUND Z AXIS
+        <limit velocity="5.0" effort="100" lower="${-pi*0.75}" upper="${pi*0.75}"/>
+        <dynamics damping="0.7"/>
+    </joint>
+    
+    
+    <link name="link2">
+        <collision>
+            <origin xyz="0 0 0" rpy="0 ${-pi*0.5} 0"/>
+            <geometry>
+                <cylinder length="${link2_height}" radius="${link2_radius}" />
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 ${-pi*0.5} 0"/>
+            <geometry>
+                <cylinder length="${link2_height}" radius="${link2_radius}" />
+            </geometry>
+        </visual>
+        <inertial>
+            <origin xyz="0.0 0.00000 0.0" rpy="0 0 0"/>
+            <mass value="0.5"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+        </inertial>
+    </link>
+</robot>
+<!--
+<?xml version="1.0"?>
+<robot name="my_robotic_arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:macro name="inertial_matrix" params="mass">
+<inertial>
+<mass value="${mass}"/>
+<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+</inertial>
+</xacro:macro>
+
+<xacro:macro name="cylinder_inertia" params="m r h">
+<inertia  ixx="${m*(3*r*r+h*h)/12}" ixy = "0" ixz = "0" iyy="${m*(3*r*r+h*h)/12}" iyz = "0" izz="${m*r*r/2}" /> 
+</xacro:macro>
+
+<xacro:property name="link1_radius" value="0.15"/>
+<xacro:property name="link1_height" value="1.0"/>
+<xacro:property name="link2_radius" value="0.1"/>
+<xacro:property name="link2_height" value="0.3"/>
+
+
+<link name="world"/>
+
+<joint name="world_attached_link1" type="fixed">
+<origin xyz="0 0 ${link1_height/2}" rpy="0 0 0"/>
+<parent link="world"/>
+<child link="link1"/>
+</joint>
+
+<link name="link1">
+<collision>
+<origin xyz="0 0 0" rpy="0 0 0"/>
+<geometry>
+<cylinder length="${link1_height}" radius="${link1_radius}" />
+</geometry>
+</collision>
+<visual>
+<origin xyz="0 0 0" rpy="0 0 0"/>
+<geometry>
+<cylinder length="${link1_height}" radius="${link1_radius}" />
+</geometry>
+</visual>
+<cylinder_inertia m="1" r="${link1_radius}" h="${link1_height}"/>
+</link>
+
+<joint name="j1" type="revolute">
+<origin xyz="0 0 ${link1_height/2 + link2_radius }" rpy="0 0 0"/> DEFINE HERE TO CORRECT AXIS
+<parent link="link1"/>
+<child link="link2"/>
+<axis xyz="0 0 1"/>  CURRENTLY AROUND Z AXIS
+<limit velocity="5.0" effort="100" lower="${-pi*0.75}" upper="${pi*0.75}"/>
+<dynamics damping="0.7"/>
+</joint>
+
+
+<link name="link2">
+<collision>
+<origin xyz="0 0 0" rpy="0 ${-pi*0.5} 0"/>
+<geometry>
+<cylinder length="${link2_height}" radius="${link2_radius}" />
+</geometry>
+</collision>
+<visual>
+<origin xyz="0 0 0" rpy="0 ${-pi*0.5} 0"/>
+<geometry>
+<cylinder length="${link2_height}" radius="${link2_radius}" />
+</geometry>
+</visual>
+<cylinder_inertia m="1" r="${link2_radius}" h="${link2_height}"/>
+</link>
+</robot>-->
