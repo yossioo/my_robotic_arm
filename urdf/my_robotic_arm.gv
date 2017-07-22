@@ -1,0 +1,23 @@
+digraph G {
+node [shape=box];
+"world" [label="world"];
+"joint1" [label="joint1"];
+"joint2" [label="joint2"];
+"joint3" [label="joint3"];
+"joint4" [label="joint4"];
+"joint5" [label="joint5"];
+"joint6" [label="joint6"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"world" -> "j1" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"j1" -> "joint1"
+"joint1" -> "j2" [label="xyz: 0 0 0.3 \nrpy: 1.5708 -5.55112e-17 1.5708"]
+"j2" -> "joint2"
+"joint2" -> "j3" [label="xyz: 0 0.3 0 \nrpy: 0 -0 1.5708"]
+"j3" -> "joint3"
+"joint3" -> "j4" [label="xyz: 0.3 0 0 \nrpy: 1.5708 -5.55112e-17 1.5708"]
+"j4" -> "joint4"
+"joint4" -> "j5" [label="xyz: 0 0 0.2 \nrpy: 1.5708 -2.06823e-13 3.14159"]
+"j5" -> "joint5"
+"joint5" -> "j6" [label="xyz: 0 0.2 0 \nrpy: 1.5708 -2.06823e-13 3.14159"]
+"j6" -> "joint6"
+}
