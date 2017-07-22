@@ -46,9 +46,9 @@
     <xacro:property name="width" value="0.05"/>
     <xacro:property name="l1" value="0.3"/>
     <xacro:property name="l2" value="1"/>
-    <xacro:property name="l3" value="0.8"/>
-    <xacro:property name="l4" value="0.2"/>
-    <xacro:property name="l5" value="0.2"/>
+    <xacro:property name="l3" value="1"/>
+    <xacro:property name="l4" value="0.00001"/>
+    <xacro:property name="l5" value="0.00001"/>
     <xacro:property name="l6" value="0.2"/>
     
     <xacro:property name="end_ball_radius" value="0.025"/>
@@ -60,7 +60,7 @@
         <parent link="world"/>
         <child link="joint1"/>
         <axis xyz="0 0 1"/>  
-        <limit velocity="5.0" effort="100" lower="${-pi*0.75}" upper="${pi*0.75}"/>
+        <limit velocity="5.0" effort="100" lower="${-pi*0.95}" upper="${pi*0.95}"/>
         <dynamics damping="0.7"/>
     </joint>
     <link name="joint1">
@@ -113,7 +113,7 @@
         <parent link="joint1"/>
         <child link="joint2"/>
         <axis xyz="0 0 1 "/>  
-        <limit velocity="5.0" effort="100" lower="${-pi*0.75}" upper="${pi*0.75}"/>
+        <limit velocity="5.0" effort="100" lower="${-pi*0.95}" upper="${pi*0.95}"/>
         <dynamics damping="0.7"/>
     </joint>
     <link name="joint2">
@@ -166,7 +166,7 @@
         <parent link="joint2"/>
         <child link="joint3"/>
         <axis xyz="0 0 1"/> 
-        <limit velocity="5.0" effort="100" lower="${-pi*0.75}" upper="${pi*0.75}"/>
+        <limit velocity="5.0" effort="100" lower="${-pi*0.95}" upper="${pi*0.95}"/>
         <dynamics damping="0.7"/>
     </joint>
     <link name="joint3">
@@ -220,7 +220,7 @@
         <parent link="joint3"/>
         <child link="joint4"/>
         <axis xyz="0 0 1"/> 
-        <limit velocity="5.0" effort="100" lower="${-pi*0.75}" upper="${pi*0.75}"/>
+        <limit velocity="5.0" effort="100" lower="${-pi*0.95}" upper="${pi*0.95}"/>
         <dynamics damping="0.7"/>
     </joint>
     <link name="joint4">
@@ -273,7 +273,7 @@
         <parent link="joint4"/>
         <child link="joint5"/>
         <axis xyz="0 0 1"/> 
-        <limit velocity="5.0" effort="100" lower="${-pi*0.75}" upper="${pi*0.75}"/>
+        <limit velocity="5.0" effort="100" lower="${-pi*1.75}" upper="${pi*1.75}"/>
         <dynamics damping="0.7"/>
     </joint>
     <link name="joint5">
