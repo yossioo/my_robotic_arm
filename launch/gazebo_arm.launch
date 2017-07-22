@@ -23,10 +23,11 @@
     
     <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
     <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-          args="-urdf -model arm_o_be -param robot_description"/>
+          args="-urdf -model arm -param robot_description"/>
     
     <!-- ros_control robotis manipulator launch file -->
-<!--     <include file="$(find my_robotic_arm)/launch/position_controller.launch" /> -->
+    <include file="$(find my_robotic_arm)/launch/position_controller.launch" />
+    <include file="$(find my_robotic_arm)/launch/joints_cmd.launch" />
 <!--     <node name="my_robotic_arm_tf_broadcaster" pkg="my_robotic_arm" type="arm_tf_bdcst.py" respawn="false" output="screen"/> -->
     
 <!--     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find my_robotic_arm)/arm.rviz" required="true" /> -->
