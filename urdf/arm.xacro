@@ -6,8 +6,7 @@
     <!-- Constants -->
     <xacro:property name="deg_to_rad" value="0.01745329251994329577"/>
     <!--     <xacro:property name="pi" value="3.141592654" /> -->
-    <xacro:property name="M_SCALE" value="0.001 0.001 0.001"/> 
-    <xacro:property name="M_PI" value="3.14159"/>
+    <xacro:property name="M_PI" value="3.141592654"/>
     
     <xacro:property name="l4" value="0.05"/>
     
@@ -39,14 +38,11 @@
     
     <!-- Used for fixing robot to Gazebo 'link 1' -->
     <link name="world"/>
-    
     <joint name="world_attached_link1" type="fixed">
         <origin xyz="0 0 ${link1_height/2}" rpy="0 0 0"/>
         <parent link="world"/>
         <child link="link1"/>
     </joint>
-    
-    
     <link name="link1">
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -206,6 +202,7 @@
             <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
         </inertial>
     </link>
+    
     <joint name="j6" type="revolute">
         <origin xyz="0 0 0" rpy="${-pi*0.0} ${-pi*0.0} ${-pi*0.0}"/>
         <parent link="link6"/>
@@ -239,6 +236,7 @@
             <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
         </inertial>
     </link>
+
     <joint name="end_ball_fixation" type="fixed">
         <origin xyz="0 0 ${link7_height}" rpy="${-pi*0.0} ${-pi*0.0} ${-pi*0.0}"/>
         <parent link="link7"/>
@@ -283,6 +281,7 @@
         <material>Gazebo/FlatBlack</material>
     </gazebo>
     <gazebo reference="link7">
+<!--         <material>Gazebo/BlueTransparentOverlay</material> -->
         <material>Gazebo/DarkGrey</material>
     </gazebo>
     <gazebo reference="end_ball">
