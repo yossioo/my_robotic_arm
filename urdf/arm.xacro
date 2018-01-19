@@ -41,22 +41,22 @@
     <xacro:property name="M_PI" value="3.141592654"/>
     
     <xacro:property name="joint_radius" value="0.05"/>
-    <xacro:property name="joint_height" value="0.2"/>
+    <xacro:property name="joint_height" value="0.1"/>
     
     <xacro:property name="width" value="0.05"/>
     <xacro:property name="l1" value="0.3"/>
-    <xacro:property name="l2" value="1"/>
-    <xacro:property name="l3" value="1"/>
-    <xacro:property name="l4" value="0.00001"/>
-    <xacro:property name="l5" value="0.00001"/>
-    <xacro:property name="l6" value="0.2"/>
+    <xacro:property name="l2" value="0.5"/>
+    <xacro:property name="l3" value="0.5"/>
+    <xacro:property name="l4" value="0.3"/>
+    <xacro:property name="l5" value="0.3"/>
+    <xacro:property name="l6" value="0.3"/>
     
     <xacro:property name="end_ball_radius" value="0.025"/>
     
     <!-- Used for fixing robot to Gazebo 'link 1' -->
     <link name="world"/>
     <joint name="j1" type="revolute">
-        <origin xyz="0 0 0.15" rpy="0 0 0"/>
+        <origin xyz="0 0 0.1" rpy="0 0 0"/>
         <parent link="world"/>
         <child link="joint1"/>
         <axis xyz="0 0 1"/>  
@@ -99,7 +99,7 @@
             <geometry>
                 <box size="${width} ${width} ${l1}"/>
             </geometry>
-            <material name="darkgreen"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <origin xyz="0.0 0.00000 0.0" rpy="0 0 0"/>
@@ -109,7 +109,7 @@
     </link>
     
     <joint name="j2" type="revolute">
-        <origin xyz="0 0 ${l1}" rpy="${pi*0.0} ${pi*0.5} ${pi*0.0}"/>
+        <origin xyz="0 0 ${l1}" rpy="${0.5*pi} ${-0.0*pi} ${pi*0.0}"/>
         <parent link="joint1"/>
         <child link="joint2"/>
         <axis xyz="0 0 1 "/>  
@@ -148,11 +148,11 @@
             </geometry>
         </collision>
         <visual>
-            <origin xyz="0 ${l2/2} 0 " rpy="0 0 0"/>
+            <origin xyz="${l2/2} 0 0 " rpy="0 0 0"/>
             <geometry>
-                <box size="${width} ${l2} ${width}"/>
+                <box size="${l2} ${width} ${width}"/>
             </geometry>
-            <material name="darkgreen"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <origin xyz="0.0 0.00000 0.0" rpy="0 0 0"/>
@@ -162,7 +162,7 @@
     </link>
     
     <joint name="j3" type="revolute">
-        <origin xyz="0 ${l2} 0" rpy="${pi*0.0} ${pi*0.0} ${pi*0.5}"/> 
+        <origin xyz="${l2} 0 0" rpy="${pi*0.0} ${pi*0.0} ${pi*0.0}"/>
         <parent link="joint2"/>
         <child link="joint3"/>
         <axis xyz="0 0 1"/> 
@@ -205,7 +205,7 @@
             <geometry>
                 <box size="${l3} ${width} ${width}"/>
             </geometry>
-            <material name="darkgreen"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <origin xyz="0.0 0.00000 0.0" rpy="0 0 0"/>
@@ -259,7 +259,7 @@
             <geometry>
                 <box size="${width} ${width} ${l4} "/>
             </geometry>
-            <material name="darkgreen"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <origin xyz="0.0 0.00000 0.0" rpy="0 0 0"/>
@@ -272,8 +272,8 @@
         <origin xyz="0 0 ${l4}" rpy="${-pi*0.5} ${pi*1} ${pi*0.0}"/> 
         <parent link="joint4"/>
         <child link="joint5"/>
-        <axis xyz="0 0 1"/> 
-        <limit velocity="5.0" effort="100" lower="${-pi*1.75}" upper="${pi*1.75}"/>
+        <axis xyz="0 0 1"/>
+        <limit velocity="5.0" effort="100" lower="${-pi*0.95}" upper="${pi*0.95}"/>
         <dynamics damping="0.7"/>
     </joint>
     <link name="joint5">
@@ -312,7 +312,7 @@
             <geometry>
                 <box size="${width} ${l5}  ${width}"/>
             </geometry>
-            <material name="green"/>
+            <material name="black"/>
         </visual>
         <inertial>
             <origin xyz="0.0 0.00000 0.0" rpy="0 0 0"/>
@@ -358,13 +358,14 @@
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-                <sphere radius="${end_ball_radius}" />
+                <box size="0.1 0.05 0.01"/>
             </geometry>
         </collision>
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-                <sphere radius="${end_ball_radius}" />
+                <box size="0.1 0.05 0.01"/>
+                <!--<sphere radius="${end_ball_radius}" />-->
             </geometry>
             <material name="blue"/>
         </visual>
@@ -393,8 +394,8 @@
     <gazebo reference="link6">
         <material>Gazebo/FlatBlack</material>
     </gazebo>
-    
-    
+
+
     <transmission name="transmission">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="j1">
